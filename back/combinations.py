@@ -47,10 +47,12 @@ def toBitString(s):
       res += 1 << elt
    return res
 
-# Returns a k-sized subset of {0, ..., n - 1} based on index. Assumes no upper
-# bound on 'index'.
-def subset(n, k, index):
-   return combination(k, index % choose(n, k))
+
+# Returns the subset of list 'pool' of given size with given combinatorial 'index'.
+# Assumes no upper bound on index >= 0.
+def subset(pool, size, index):
+   chosen = combination(size, index % choose(len(pool), size))
+   return map(lambda i : pool[i], chosen)
 
 choose = cached(choose)
 max_ck = cached(max_ck)
