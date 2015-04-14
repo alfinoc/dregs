@@ -20,7 +20,7 @@ def prefixed_rule_list(prefix, css):
    def serialize(rule):
       res = rule.serialize()
       if rule.type == 'qualified-rule':
-         res = prefix + ' ' + res
+         res = '.{0} {1}'.format(prefix, res)
       return res
    rules, encoding = tinycss2.parse_stylesheet_bytes(css, skip_whitespace=True)
    return map(serialize, rules)
@@ -36,7 +36,7 @@ def consolidate(strips):
    unique = 1
    for strip in strips:
       styles, markup = extractStyle(strip)
-      prefix = '.pre' + str(unique)
+      prefix = 'pre' + str(unique)
       clean.append({
          'prefix': prefix,
          'markup': markup
