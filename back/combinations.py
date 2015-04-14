@@ -49,8 +49,9 @@ def toBitString(s):
 
 
 # Returns the subset of list 'pool' of given size with given combinatorial 'index'.
-# Assumes no upper bound on index >= 0.
+# Assumes no upper bound on index >= 0. Caps 'size' to number of elements in 'pool'.
 def subset(pool, size, index):
+   size = min(len(pool), size)
    chosen = combination(size, index % choose(len(pool), size))
    return map(lambda i : pool[i], chosen)
 

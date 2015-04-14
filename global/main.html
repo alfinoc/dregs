@@ -3,11 +3,14 @@
 <head>
    <title>DREGS</title>
    <link rel="stylesheet" type="text/css" href="global/main.css">
+   <style> {% for rule in style %} {{ rule }} {% endfor %} </style>
 </head>
 <body>
    <div id="container">
       <div id="banner">DREGS</div>
-      {% for s in strips %} <div class="strip">{{ s }}</div> {% endfor %}
+      {% for s in strips %}
+         <div class="strip {{ s.prefix }}">{{ s.markup }}</div>
+      {% endfor %}
    </div>
 </body>
 </html>

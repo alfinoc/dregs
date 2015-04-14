@@ -9,6 +9,7 @@ from os import listdir as ls
 from os.path import join
 from json import load
 
+from scope_css import consolidate
 from combinations import subset
 
 ISSUE_PATH = 'issues/issue1'
@@ -29,9 +30,10 @@ class Service():
       ip = self._ip(request)
       config = load(open(join(ISSUE_PATH, 'config')))
       strips = self._getIssueStrips(join(ISSUE_PATH, config['strip_path']))
-      print (strips, config['show'], ip)
-      chosen = subset(strips, config['show'], ip)
-      return self.render('main.html', strips=chosen)
+      chosen, allStyle = consolidate(subset(strips, config['show'], ip))
+      print chosen
+      print allStyle
+      return self.render('main.html', strips=chosen, style=allStyle)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
    # given directory.
