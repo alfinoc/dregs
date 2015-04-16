@@ -1,8 +1,21 @@
+body {
+   background-color: #6B6B6B;
+}
+
 #container {
-   width: 800px;
+   width: 1000px;
    margin: auto;
 }
 
-#banner {
+#pagebanner h1 {
+   font-family: monospace;
    font-size: 72pt;
+   margin: 30px;
+   color: #FFC400;
+   transform: rotate(10deg);
+}
+
+h1.killdefault, h2.killdefault, h3.killdefault {
+   font-weight: normal;
+   font-size: inherit;
 }

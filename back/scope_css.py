@@ -1,6 +1,8 @@
 from BeautifulSoup import BeautifulSoup as bs
 import tinycss2
 
+PREFIX_BASE = '_pre'
+
 # Returns a pair (style, clean) where 'style' is a list of <style> tag contents
 # from given html and 'clean' is the remaining html after all such 'style' tags are
 # removed.
@@ -36,7 +38,7 @@ def consolidate(strips):
    unique = 1
    for strip in strips:
       styles, markup = extractStyle(strip)
-      prefix = 'pre' + str(unique)
+      prefix = PREFIX_BASE + str(unique)
       clean.append({
          'prefix': prefix,
          'markup': markup

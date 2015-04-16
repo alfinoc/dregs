@@ -12,7 +12,7 @@ from json import load
 from scope_css import consolidate
 from combinations import subset
 
-ISSUE_PATH = 'issues/issue1'
+ISSUE_PATH = 'issues/mock'
 
 # Returns an integer rep. of the given 32-bit IP string xxx.xxx.xxx.xxx.
 def ipToInt(ip):
@@ -30,10 +30,10 @@ class Service():
       ip = self._ip(request)
       config = load(open(join(ISSUE_PATH, 'config')))
       strips = self._getIssueStrips(join(ISSUE_PATH, config['strip_path']))
-      chosen, allStyle = consolidate(subset(strips, config['show'], ip))
-      print chosen
-      print allStyle
-      return self.render('main.html', strips=chosen, style=allStyle)
+      chosen, stripStyles = consolidate(subset(strips, config['show'], ip))
+      issueStyles = contents(join(ISSUE_PATH, config['issue_style']))
+      return self.render('main.html', strips=chosen, style=stripStyles,
+                         issue_style=issueStyles)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
    # given directory.
@@ -51,7 +51,7 @@ class Service():
       return ip
 
    def __init__(self, template_path):
-      self.url_map = Map([
+      self.url_map = Map([ 
          Rule('/', endpoint="all")
       ])
       self.jinja_env = Environment(loader=FileSystemLoader(template_path))

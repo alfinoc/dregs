@@ -2,5 +2,6 @@
    "show": 3,
    "shuffle": false,
    "strip_path": "strips",
-   "resource_path": "resources"
+   "resource_path": "resources",
+   "issue_style": "main.css"
 }
