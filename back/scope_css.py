@@ -3,6 +3,7 @@ import tinycss2
 
 PREFIX_BASE = '_pre'
 
+
 # Returns a pair (style, clean) where 'style' is a list of <style> tag contents
 # from given html and 'clean' is the remaining html after all such 'style' tags are
 # removed.
@@ -16,14 +17,29 @@ def extractStyle(html):
       elt.decompose()
    return (sheets, soup.prettify())
 
+# Returns a new prelude with all the tokens from the given prelude, except that
+# the tokens representing ".classSelector" are included at the beginning of the
+# prelude and after every comma.
+def prefixPrelude(classSelector, prelude):
+   prefixed = tinycss2.parse_component_value_list('.' + classSelector + ' ')
+   dot, identifier, whitespace = prefixed
+   # Insert prefix at the beginning of the rule.
+   for token in prelude:
+      prefixed.append(token)
+      if token.type == 'literal' and token.value == ',':
+         prefixed.append(whitespace)
+         prefixed.append(dot)
+         prefixed.append(identifier)
+         prefixed.append(whitespace)
+   return prefixed
+
 # Returns a list of unicode rules in given 'css' bytes with each qualified rule
 # prefixed by given prefix. Leaves at-rules unchanged.
 def prefixed_rule_list(prefix, css):
    def serialize(rule):
-      res = rule.serialize()
       if rule.type == 'qualified-rule':
-         res = '.{0} {1}'.format(prefix, res)
-      return res
+         rule.prelude = prefixPrelude(prefix, rule.prelude)
+      return rule.serialize()
    rules, encoding = tinycss2.parse_stylesheet_bytes(css, skip_whitespace=True)
    return map(serialize, rules)
 
