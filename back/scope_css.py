@@ -3,7 +3,6 @@ import tinycss2
 
 PREFIX_BASE = '_pre'
 
-
 # Returns a pair (style, clean) where 'style' is a list of <style> tag contents
 # from given html and 'clean' is the remaining html after all such 'style' tags are
 # removed.

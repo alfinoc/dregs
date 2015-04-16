@@ -3,5 +3,6 @@
    "shuffle": false,
    "strip_path": "strips",
    "resource_path": "resources",
-   "issue_style": "main.css"
+   "issue_style": "main.css",
+   "header": "header.html"
 }

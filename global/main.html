@@ -10,9 +10,6 @@
 </head>
 <body>
    <div id="container">
-      <div id="pagebanner">
-         <h1 class="killdefault">Dregs</h1>
-      </div>
       {% for s in strips %}
          <div class="strip {{ s.prefix }}">{{ s.markup }}</div>
       {% endfor %}

@@ -27,12 +27,18 @@ def contents(filename):
 
 class Service():
    def get_all(self, request):
+      def joinIssue(filename):
+         return join(ISSUE_PATH, filename)
+
+      config = load(open(joinIssue('config')))
       ip = self._ip(request)
-      config = load(open(join(ISSUE_PATH, 'config')))
-      strips = self._getIssueStrips(join(ISSUE_PATH, config['strip_path']))
-      chosen, stripStyles = consolidate(subset(strips, config['show'], ip))
-      issueStyles = contents(join(ISSUE_PATH, config['issue_style']))
-      return self.render('main.html', strips=chosen, style=stripStyles,
+
+      strips = self._getIssueStrips(joinIssue(config['strip_path']))
+      required = [ contents(joinIssue(config['header'])) ]
+      chosen = subset(strips, config['show'], ip)
+      stripMarkup, stripStyles = consolidate(required + chosen)
+      issueStyles = contents(joinIssue(config['issue_style']))
+      return self.render('main.html', strips=stripMarkup, style=stripStyles,
                          issue_style=issueStyles)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
