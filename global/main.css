@@ -12,3 +12,7 @@ h1.killdefault, h2.killdefault, h3.killdefault {
    font-size: inherit;
    margin: 0px;
 }
+
+*[audio-click] {
+   cursor: pointer;
+}

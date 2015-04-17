@@ -12,8 +12,6 @@ from json import load
 from scope_css import consolidate
 from combinations import subset
 
-ISSUE_PATH = 'issues/mock'
-
 # Returns an integer rep. of the given 32-bit IP string xxx.xxx.xxx.xxx.
 def ipToInt(ip):
    parts = map(int, ip.split('.'))  # Could reverse but who cares?
@@ -27,19 +25,19 @@ def contents(filename):
 
 class Service():
    def get_all(self, request):
-      def joinIssue(filename):
-         return join(ISSUE_PATH, filename)
-
-      config = load(open(joinIssue('config')))
+      config = load(open(self._joinIssue('config')))
       ip = self._ip(request)
 
-      strips = self._getIssueStrips(joinIssue(config['strip_path']))
-      required = [ contents(joinIssue(config['header'])) ]
+      strips = self._getIssueStrips(self._joinIssue(config['strip_path']))
+      required = [ contents(self._joinIssue(config['header'])) ]
       chosen = subset(strips, config['show'], ip)
       stripMarkup, stripStyles = consolidate(required + chosen)
-      issueStyles = contents(joinIssue(config['issue_style']))
+      issueStyles = contents(self._joinIssue(config['issue_style']))
       return self.render('main.html', strips=stripMarkup, style=stripStyles,
                          issue_style=issueStyles)
+
+   def _joinIssue(self, filename):
+      return join(self.issue_path, filename)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
    # given directory.
@@ -56,11 +54,12 @@ class Service():
          ip = 0
       return ip
 
-   def __init__(self, template_path):
+   def __init__(self, template_path, issue_path):
       self.url_map = Map([ 
          Rule('/', endpoint="all")
       ])
       self.jinja_env = Environment(loader=FileSystemLoader(template_path))
+      self.issue_path = issue_path
 
    def wsgi_app(self, environ, start_response):
       request = Request(environ)
