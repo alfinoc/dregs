@@ -5,7 +5,7 @@ from werkzeug.wsgi import SharedDataMiddleware
 def create_app():
    currPath = path.dirname(__file__)
    template_path = path.join(currPath, '../global')
-   issue_path = 'issues/mock'
+   issue_path = path.join(currPath, '../issues/mock')
    app = Service(template_path, issue_path)
    app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
       '/global':  path.join(path.dirname(__file__), '../global'),

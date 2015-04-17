@@ -37,6 +37,7 @@ class Service():
                          issue_style=issueStyles)
 
    def _joinIssue(self, filename):
+      print self.issue_path
       return join(self.issue_path, filename)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
