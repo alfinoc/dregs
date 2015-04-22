@@ -1,0 +1,7 @@
+{
+   "show": 3,
+   "strip_path": "strips",
+   "resource_path": "resources",
+   "issue_style": "main.css",
+   "header": "header.html"
+}
