@@ -15,28 +15,34 @@ function attachSoundEventHandlers() {
    for (var attr in SOUND_EVENTS) {
       var elts = document.querySelectorAll('*[' + attr + ']');
       for (var i = elts.length - 1; i >= 0; i--) {
-         elts[i].addEventListener(SOUND_EVENTS[attr],
-                                  playCB(elts[i].getAttribute(attr)));
+         var files = elts[i].getAttribute(attr).split(',');
+         if (files.length > 0) {
+            elts[i].addEventListener(SOUND_EVENTS[attr], playCB(files));
+         }
       }
    }
 }
 
 /*
-Returns a callback that begins playing the given sound file as long as it is
-not already playing.
+Returns a callback that plays a sound file in 'files' on every call, starting with
+the first file and looping back around after all files are played. Only begins
+playing a file if no file is already playing.
 */
-function playCB(file) {
+function playCB(files) {
    var playing = false;
-   var sound = new Howl({
-      urls: [file],
-      onend: function() {
-         playing = false;
-      }
-   })
+   var next = 0;
+   var sounds = files.map(function(file) {
+      return new Howl({
+         urls: [file],
+         onend: function() {
+            playing = false;
+         }
+      });
+   });
    return function() {
       if (!playing) {
          playing = true;
-         sound.play();
+         sounds[next++ % sounds.length].play();
       }
    }
 }

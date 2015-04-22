@@ -25,20 +25,16 @@ def contents(filename):
 
 class Service():
    def get_all(self, request):
-      config = load(open(self._joinIssue('config')))
       ip = self._ip(request)
-
-      strips = self._getIssueStrips(self._joinIssue(config['strip_path']))
-      required = [ contents(self._joinIssue(config['header'])) ]
-      chosen = subset(strips, config['show'], ip)
+      strips = self._getIssueStrips(self.config['strip_path'])
+      required = [ contents(self.config['header']) ]
+      chosen = subset(strips, self.config['show'], ip)
+      issueStyles = contents(self.config['issue_style'])
       stripMarkup, stripStyles = consolidate(required + chosen)
-      issueStyles = contents(self._joinIssue(config['issue_style']))
-      return self.render('main.html', strips=stripMarkup, style=stripStyles,
+      return self.render('main.html',
+                         strips=stripMarkup,
+                         style=stripStyles,
                          issue_style=issueStyles)
-
-   def _joinIssue(self, filename):
-      print self.issue_path
-      return join(self.issue_path, filename)
 
    # Returns a list of all the contents of all filenames ending with '.html' in
    # given directory.
@@ -55,12 +51,12 @@ class Service():
          ip = 0
       return ip
 
-   def __init__(self, template_path, issue_path):
-      self.url_map = Map([ 
+   def __init__(self, template_path, config):
+      self.url_map = Map([
          Rule('/', endpoint="all")
       ])
       self.jinja_env = Environment(loader=FileSystemLoader(template_path))
-      self.issue_path = issue_path
+      self.config = config
 
    def wsgi_app(self, environ, start_response):
       request = Request(environ)
