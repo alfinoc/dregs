@@ -1,5 +1,21 @@
 from BeautifulSoup import BeautifulSoup as bs
 import tinycss2
+from htmlentitydefs import entitydefs, codepoint2name
+
+# Returns the HTML entity corresponding to unicode character 'uni'. If 'uni' cannot
+# be converted, return ''.
+def htmlEntity(uni):
+   try:
+      return entitydefs[codepoint2name[ord(uni)]]
+   except:
+      return ''
+
+# Returns a copy of unicode string 'uni' with all non-ascii characters
+# escaped to HTML entities.
+def escapeUnicode(uni):
+   ascii = lambda c : ord(c) < 128
+   uni = unicode(uni)
+   return ''.join([ c if ascii(c) else htmlEntity(c) for c in uni ])
 
 PREFIX_BASE = '_pre'
 
@@ -14,7 +30,7 @@ def extractStyle(html):
       if len(styles) > 0:  # Empty <style> tag.
          sheets.append(styles[0])
       elt.decompose()
-   return (sheets, soup.prettify())
+   return (sheets, unicode(soup))
 
 # Returns a new prelude with all the tokens from the given prelude, except that
 # the tokens representing ".classSelector" are included at the beginning of the
@@ -47,7 +63,9 @@ def prefixed_rule_list(prefix, css):
 #    { 'prefix': _, 'markup': _ }
 # dicts. Each returned qualified style rule is prefixed with the prefix class
 # stored in the corresponding markup object.
-def consolidate(strips):
+# Iff escapeMarkup is True, converts all non-ascii characters in the markup into
+# HTML entities.
+def consolidate(strips, escapeMarkup=True):
    allStyle = []
    clean = []
    unique = 1
@@ -56,7 +74,7 @@ def consolidate(strips):
       prefix = PREFIX_BASE + str(unique)
       clean.append({
          'prefix': prefix,
-         'markup': markup
+         'markup': escapeUnicode(markup) if escapeMarkup else markup
       })
       for sheet in styles:
          for rule in prefixed_rule_list(prefix, str(sheet)):

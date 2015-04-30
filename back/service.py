@@ -8,6 +8,7 @@ from math import pow
 from os import listdir as ls
 from os.path import join
 from json import load
+from codecs import open
 
 from scope_css import consolidate
 from combinations import subset
@@ -20,7 +21,7 @@ def ipToInt(ip):
 
 # Returns the contents of the file with given name.
 def contents(filename):
-   with open(filename) as f:
+   with open(filename, 'r', 'utf-8') as f:
       return f.read()
 
 class Service():
@@ -55,7 +56,7 @@ class Service():
       self.url_map = Map([
          Rule('/', endpoint="all")
       ])
-      self.jinja_env = Environment(loader=FileSystemLoader(template_path))
+      self.jinja_env = Environment(loader=FileSystemLoader(template_path), autoescape=False)
       self.config = config
 
    def wsgi_app(self, environ, start_response):
