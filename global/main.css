@@ -16,3 +16,9 @@ h1.killdefault, h2.killdefault, h3.killdefault {
 *[audio-click] {
    cursor: pointer;
 }
+
+.strip {
+   position: relative;
+   width: 100%;
+   float: right;
+}
