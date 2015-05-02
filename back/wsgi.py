@@ -9,10 +9,9 @@ def _qualifyConfigFiles(issue_path, config):
    for key in fileKeys:
       config[key] = path.join(issue_path, config[key])
 
-def create_app(issue='../issues/mock'):
+def create_app(issue_path='issues/mock'):
    curr_path = path.dirname(__file__)
    template_path = path.join(curr_path, '../global')
-   issue_path = path.join(curr_path, issue)
    if not path.isdir(issue_path):
       exit('No issue directory {0}'.format(issue_path))
 
