@@ -47,7 +47,6 @@ def toBitString(s):
       res += 1 << elt
    return res
 
-
 # Returns the subset of list 'pool' of given size with given combinatorial 'index'.
 # Assumes no upper bound on index >= 0. Caps 'size' to number of elements in 'pool'.
 def subset(pool, size, index):
