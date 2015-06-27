@@ -25,8 +25,23 @@ def contents(filename):
       return f.read()
 
 class Service():
+   # Cached top level endpoint.
    def get_all(self, request):
       ip = self._ip(request)
+
+      if not self.cache.exists():
+         page = self._generatePage(ip)
+      else:
+         page = self.cache.get(ip)
+         if page == None:  # Cache miss.
+            page = self._generatePage(ip)         
+            self.cache.set(ip, page)
+
+      return Response(page, mimetype='text/html')
+
+   # Generates the page contents for a dregs serve from merged strip files. Returned page
+   # omits the Response wrapper.
+   def _generatePage(self, ip):
       strips = self._getIssueStrips(self.config['strip_path'])
       required = [ contents(self.config['header']) ]
       chosen = subset(strips, self.config['show'], ip)
@@ -52,12 +67,13 @@ class Service():
          ip = 0
       return ip
 
-   def __init__(self, template_path, config):
+   def __init__(self, template_path, config, cache=None):
       self.url_map = Map([
          Rule('/', endpoint="all")
       ])
       self.jinja_env = Environment(loader=FileSystemLoader(template_path), autoescape=False)
       self.config = config
+      self.cache = PageCache(cache, len(self._getIssueStrips(self.config['strip_path'])))
 
    def wsgi_app(self, environ, start_response):
       request = Request(environ)
@@ -66,7 +82,7 @@ class Service():
 
    def render(self, template_name, **context):
       t = self.jinja_env.get_template(template_name)
-      return Response(t.render(context), mimetype='text/html')
+      return t.render(context)
 
    def __call__(self, environ, start_response):
       return self.wsgi_app(environ, start_response)
@@ -79,3 +95,22 @@ class Service():
          return response
       except HTTPException, e:
          return e
+
+class PageCache:
+   def __init__(self, client, keyMod):
+      self.keyMod = keyMod
+      self.client = client
+      if client != None:
+         self.flush()
+
+   def exists(self):
+      return self.client != None
+
+   def get(self, ip):
+      return self.client.get(str(ip % self.keyMod))
+
+   def set(self, ip, page):
+      return self.client.set(str(ip % self.keyMod), page)
+
+   def flush(self):
+      return self.client.flush_all()
