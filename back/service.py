@@ -57,6 +57,7 @@ class Service():
    def _getIssueStrips(self, directory):
       stripFilenames = filter(lambda f : f.endswith('.html'), ls(directory))
       stripFilenames = map(lambda f : join(directory, f), stripFilenames)
+      stripFilenames = sorted(stripFilenames)
       return map(contents, stripFilenames)
 
    # Returns the remote IP address of the request, or 0 if IP parsing fails.
