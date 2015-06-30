@@ -18,7 +18,7 @@ def create_app(issue_path='issues/mock', cached=False):
 
    config = load(open(path.join(issue_path, 'config')))
    _qualifyConfigFiles(issue_path, config)
-   cache = Client('127.0.0.1') if cached else None
+   cache = Client(['127.0.0.1:11211']) if cached else None
    app = Service(template_path, config, cache=cache)
    app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
       '/global':  template_path,
