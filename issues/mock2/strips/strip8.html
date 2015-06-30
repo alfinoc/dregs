@@ -26,7 +26,7 @@
    padding-bottom: 0.5em;
 }
 
-.horse ol em {
+.horse em {
    font-style: normal;
    color: magenta;
 }
@@ -125,7 +125,7 @@
 ul.dash li:before {
    content: "-";
    position: relative;
-   left: -10px;
+   left: -1em;
 }
 
 ul.dash {
@@ -134,14 +134,41 @@ ul.dash {
    margin: 0;
 }
 
-.elephant li {
-   padding-bottom: 10px;
+.jigglies {
+   clear: left;
+   float: left;
+   width: 30%;
+   padding-top: 50px;
 }
 
+.jigglies img {
+   width: 100%;
+   border-radius: 50%;
+   margin: auto;
+   display: block;
+}
+
+.rotate {
+   -webkit-animation: spin 10s linear infinite;
+   -moz-animation: spin 10s linear infinite;
+   animation: spin 10s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
 .elephant {
-   clear: both;
+   clear: right;
    float: right;
-   width: 70%;
+   width: 65%;
+   color: white;
+   text-shadow: 0px 0px 2px red;
+   font-family: Monaco, monospace;
+}
+
+.elephant li {
+   padding-bottom: 10px;
 }
 
 </style>
@@ -153,7 +180,7 @@ ul.dash {
       <ol reversed>
          <li><em>Norwegian Mambo</em>: Rounding out the bottom of the list, we have Norwegian Mambo, a thoroughbred mare who jumped into a big furnace and just essentially melted. This would be higher up but Norwegian Mambo caught her hooves on the edge of the furnace and sort of spun around badly.</li>
 
-         <li><em>Son of Norwegian Mambo</em>: Taking after mom, Son of Norwegian Mambo lands number 4, for his remarkable 1968 suicide in which he repeatedly sat down on the same tree stump over and over until he got the disease you get from that. SoNM is immortalized in Andy Warhol’s underappreciated Whoa, Check Out the Goofus Suicide Horse.</li>
+         <li><em>Son of Norwegian Mambo</em>: Taking after mom, Son of Norwegian Mambo lands number 4, for his remarkable 1968 suicide in which he repeatedly sat down on the same tree stump over and over until he got the disease you get from that. SoNM is immortalized in Andy Warhol’s underappreciated <i>Whoa, Check Out the Goofus Suicide Horse</i>.</li>
 
          <li><em>Spirit of Norwegian Mambo</em>: Who can forget when Spirit of Norwegian Mambo interrupted owner Marco Jorgenson's impassioned “My family’s horse suicides are a coincidence, not a curse” speech by tensing every muscle in his body so that all the blood shot out in a big geyser? Jorgenson certainly can, because the geyser hit his brain’s “memory zone.”</li>
 
@@ -161,7 +188,7 @@ ul.dash {
 
          <li><em>Unnamed horse</em>: The undisputed monarch of all things horse suicide is the newborn foal that spilled out of Norwegian Mambo (2008) and immediately looped its umbilical cord into a perfect hangman’s noose, pausing only to stare an aging Marco Jorgenson in the eyes and declare, in Latin, “The curse shall never be broken, Jorgenson. Your house shall be snuffed out in the onslaught of our dead, your sons and daughters buried deep in our endless number, untouched and unmourned by the sun you so cruelly sought to keep from us. Agony. Agony. Agony. Agony.”</li>
       </ol>
-      <p><em>Honorable Mention</em> - Orange Juice Weekend: First horse to get landed on by an airplane.</p>
+      <p><i>Honorable Mention</i> - <em>Orange Juice Weekend</em>: First horse to get landed on by an airplane.</p>
    </div>
 </div>
 
@@ -203,7 +230,9 @@ exist any longer.<br>
 &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052; &#10052;
 </div>
 
-<div>
+<div class="jigglies">
+   <img audio-hover="/resources/jiggly_song.wav" class="rotate" src="/resources/jiggly.png">
+</div>
 
 <div class="elephant">
    <ul class="dash">
@@ -220,4 +249,3 @@ exist any longer.<br>
       <li>I’m sorry, I just don’t see what that has to do with my somersaulting elephant.</li>
    </ul>
 </div>
-
