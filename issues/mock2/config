@@ -1,5 +1,5 @@
 {
-   "show": 10,
+   "show": 1,
    "strip_path": "strips",
    "resource_path": "resources",
    "issue_style": "main.css",

@@ -56,7 +56,6 @@ def prefixed_rule_list(prefix, css):
          rule.prelude = prefixPrelude(prefix, rule.prelude)
       return rule.serialize()
    rules, encoding = tinycss2.parse_stylesheet_bytes(css, skip_whitespace=True)
-   #print rules[-2].serialize()
    return map(serialize, rules)
 
 # Returns a pair (markup, style) where 'style' is a full list of all rules that

@@ -1,2 +1,4 @@
 *.pyc
 .*
+back/gen_audio_elts.py
+
