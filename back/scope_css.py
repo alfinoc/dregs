@@ -23,7 +23,7 @@ PREFIX_BASE = '_pre'
 # from given html and 'clean' is the remaining html after all such 'style' tags are
 # removed.
 def extractStyle(html):
-   soup = bs(html)
+   soup = bs(html, smartQuotesTo=None)
    sheets = []
    for elt in soup.findAll('style'):
       styles = elt.contents
@@ -56,6 +56,7 @@ def prefixed_rule_list(prefix, css):
          rule.prelude = prefixPrelude(prefix, rule.prelude)
       return rule.serialize()
    rules, encoding = tinycss2.parse_stylesheet_bytes(css, skip_whitespace=True)
+   #print rules[-2].serialize()
    return map(serialize, rules)
 
 # Returns a pair (markup, style) where 'style' is a full list of all rules that
@@ -77,6 +78,9 @@ def consolidate(strips, escapeMarkup=True):
          'markup': escapeUnicode(markup) if escapeMarkup else markup
       })
       for sheet in styles:
+         # TODO: Remove this hack by moving to bs4. We compensate for bogus
+         # html escaping off CSS.
+         sheet = sheet.replace('&gt', '>').replace('&lt', '<').replace('&amp', '&')
          for rule in prefixed_rule_list(prefix, str(sheet)):
             allStyle.append(rule)
       unique += 1
