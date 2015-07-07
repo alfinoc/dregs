@@ -30,8 +30,8 @@ h2 span {
    line-height: 1.5;
    font-family: sans-serif;
    color: #FDB4AF;
-   -ms-transform: rotate(90deg); /* IE 9 */
-   -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+   -ms-transform: rotate(90deg);
+   -webkit-transform: rotate(90deg);
    transform: rotate(90deg);
 }
 
@@ -52,6 +52,16 @@ h2 span {
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
 }
+
+.audio {
+   position: absolute;
+   top: 110px;
+   left: 300px;
+   -ms-transform: rotate(-40deg);
+   -webkit-transform: rotate(-40deg);
+   transform: rotate(-40deg);
+}
+
 </style>
 <div class="eulogy">
    <h2 class="killdefault">The family <span>Melmon</span></h2>
@@ -70,6 +80,5 @@ ranked<span>:</span>
 <div class="water">
 Look if you manage to climb the broadcast tower and pour a specially charged bucket of water on it such that it beams the text of some poems you wrote onto television screens throughout the region, I don't think they should be allowed to arrest you. <strong>That's just my opinion.</strong>
 </div>
-<div>
-   <button audio-click="resources/kirby.wav">click it</button>
-</div>
+
+<div class="audio" audio-click="/resources/bad_ideas/2.wav,/resources/bad_ideas/3.wav,/resources/bad_ideas/4.wav,/resources/bad_ideas/5.wav,/resources/bad_ideas/6.wav,/resources/bad_ideas/7.wav,/resources/bad_ideas/8.wav,/resources/bad_ideas/9.wav,/resources/bad_ideas/10.wav,/resources/bad_ideas/11.wav"><div><img src="/resources/play.png" height="24" width="24"><div class="label">here's a bad idea</div></div></div>

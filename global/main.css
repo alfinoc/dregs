@@ -22,3 +22,31 @@ h1.killdefault, h2.killdefault, h3.killdefault {
    width: 100%;
    float: right;
 }
+
+.audio {
+   color: white;
+   display: inline-block;
+   font-family: monospace;
+}
+
+.audio > div {
+   display: flex;
+   display: -webkit-flex;
+}
+
+.audio > div .label {
+   margin-left: 10px;
+   -webkit-flex: 1;
+   -ms-flex: 1;
+   flex: 1;
+   border-bottom: 1px solid white;
+}
+
+.audio > div .label:hover {
+   border-width: 2px;
+}
+
+.audio > div * {
+   -webkit-align-self: center;
+   align-self: center;
+}

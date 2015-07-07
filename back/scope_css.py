@@ -23,7 +23,7 @@ PREFIX_BASE = '_pre'
 # from given html and 'clean' is the remaining html after all such 'style' tags are
 # removed.
 def extractStyle(html):
-   soup = bs(html)
+   soup = bs(html, smartQuotesTo=None)
    sheets = []
    for elt in soup.findAll('style'):
       styles = elt.contents
@@ -77,6 +77,9 @@ def consolidate(strips, escapeMarkup=True):
          'markup': escapeUnicode(markup) if escapeMarkup else markup
       })
       for sheet in styles:
+         # TODO: Remove this hack by moving to bs4. We compensate for bogus
+         # html escaping off CSS.
+         sheet = sheet.replace('&gt', '>').replace('&lt', '<').replace('&amp', '&')
          for rule in prefixed_rule_list(prefix, str(sheet)):
             allStyle.append(rule)
       unique += 1
