@@ -34,6 +34,7 @@ function playCB(files) {
    var sounds = files.map(function(file) {
       return new Howl({
          urls: [file],
+         volume: 1,
          onend: function() {
             playing = false;
          }
