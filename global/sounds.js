@@ -8,6 +8,15 @@ window.onload = function() {
    attachSoundEventHandlers();
 }
 
+function partial(fn, var_args) {
+   var args = Array.prototype.slice.call(arguments, 1);
+   return function() {
+      var newArgs = args.slice();
+      newArgs.push.apply(newArgs, arguments);
+      return fn.apply(this, newArgs);
+   };
+};
+
 /*
 Attaches event handlers to all elements on the page with audio event attributes.
 */
@@ -30,20 +39,31 @@ playing a file if no file is already playing.
 */
 function playCB(files) {
    var playing = false;
+   var onend = function() {
+      playing = false;
+   };
    var next = 0;
-   var sounds = files.map(function(file) {
-      return new Howl({
-         urls: [file],
-         volume: 1,
-         onend: function() {
-            playing = false;
-         }
-      });
-   });
+   var sounds = files.map(partial(howlGetter, onend));
    return function() {
       if (!playing) {
          playing = true;
-         sounds[next++ % sounds.length].play();
+         sounds[next++ % sounds.length]().play();
       }
+   }
+}
+
+/*
+Returns a function that, when called, returns a Howl sound object. Repeated calls
+will return the same object, and the onend function supplied on the first call
+will be called when the sound object finishes playing.
+*/
+function howlGetter(onend, file) {
+   var howl = null;
+   return function() {
+      return howl || new Howl({
+         urls: [file],
+         volume: 1,
+         onend: onend
+      });
    }
 }
